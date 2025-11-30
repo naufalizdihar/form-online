@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Qiraatiya — Pendaftaran Kelas</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: inter, sans-serif;
+        background: #f5f7fa;
+        color: #00153f;
+        line-height: 1.6;
+      }
+      header {
+        padding: 20px 24px;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .hero {
+        padding: 50px 24px;
+        background: #0b1220;
+        color: white;
+        text-align: center;
+      }
+      .section {
+        max-width: 950px;
+        margin: 40px auto;
+        padding: 0 24px;
+      }
+      .program-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+      }
+      .card {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 18px;
+        background: #0b1220;
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      /* POPUP FORM */
+      .form-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .form-box {
+        background: white;
+        padding: 26px;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border-radius: 8px;
+        border: 1px solid #ccd3dd;
+      }
+      label {
+        font-weight: 600;
+        margin-top: 14px;
+        display: block;
+      }
+      .close-btn {
+        cursor: pointer;
+        padding: 8px 12px;
+        background: #ddd;
+        border-radius: 8px;
+        float: right;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>QIRAATIYYA</h1>
+    </header>
+
+    <section class="hero">
+      <h1>Pendaftaran Kelas Online</h1>
+      <p>
+        Pilih Program pembelajaran Al-Qur'an & Bahasa Arab secara online —
+        fleksibel dan sesuai kebutuhan Anda.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Program</h2>
+      <div class="program-grid">
+        <div class="card">
+          <h3>Tahsin</h3>
+          <p>Perbaikan makhraj & tajwid untuk bacaan lebih benar.</p>
+          <div class="btn" onclick="openForm('Tahsin')">Buka Form</div>
+        </div>
+
+        <div class="card">
+          <h3>Tahfidz</h3>
+          <p>Khusus peserta yang ingin mulai menghafal Al-Qur’an.</p>
+          <div class="btn" onclick="openForm('Tahfidz')">Buka Form</div>
+        </div>
+
+        <div class="card">
+          <h3>Murajaah</h3>
+          <p>Memperkuat & menjaga hafalan Al-Qur’an.</p>
+          <div class="btn" onclick="openForm('Murajaah')">Buka Form</div>
+        </div>
+
+        <div class="card">
+          <h3>Bahasa Arab</h3>
+          <p>Belajar bahasa Arab dasar untuk memahami Al-Qur’an.</p>
+          <div class="btn" onclick="openForm('Bahasa Arab')">Buka Form</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPUP FORM -->
+    <div id="formModal" class="form-modal" style="display: none">
+      <div class="form-box">
+        <span class="close-btn" onclick="closeForm()">Tutup</span>
+        <h3 id="formTitle">Form Pendaftaran</h3>
+
+        <form id="formPendaftaran">
+          <input type="hidden" id="program" name="program" />
+
+          <label
+            >Nama Lengkap
+            <input id="nama" type="text" required />
+          </label>
+
+          <label
+            >Tempat Tanggal Lahir
+            <input
+              id="ttl"
+              type="text"
+              placeholder="Padang, 12 Mei 2001"
+              required
+            />
+          </label>
+
+          <label
+            >Usia
+            <input id="usia" type="number" required />
+          </label>
+
+          <label
+            >Pekerjaan
+            <input id="pekerjaan" type="text" required />
+          </label>
+
+          <label
+            >No HP / WhatsApp
+            <input id="whatsapp" type="text" required />
+          </label>
+
+          <label
+            >Pilih Hari
+            <select id="hari" onchange="updateHarga()" required>
+              <option value="">-- Pilih Hari --</option>
+              <option value="weekday">Weekday</option>
+              <option value="weekend">Weekend</option>
+            </select>
+          </label>
+
+          <label
+            >Durasi Kelas
+            <select id="durasi" onchange="updateHarga()" required>
+              <option value="">-- Pilih Durasi --</option>
+              <option value="30">30 Menit</option>
+              <option value="10">10 Menit</option>
+            </select>
+          </label>
+
+          <div id="hargaBox" style="margin-top: 14px; font-weight: 700"></div>
+
+          <button
+            type="submit"
+            style="
+              margin-top: 18px;
+              width: 100%;
+              padding: 12px;
+              background: #0b1220;
+              color: white;
+              border-radius: 10px;
+              border: none;
+            "
+          >
+            Daftar Sekarang
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbzoG9FMLxj3HUwg2pGlvvjTCYArAxAERTYVMSoqsNxwMOO-7e-w-86oaVtOTKjUFOBB/exec";
+
+      function openForm(program) {
+        document.getElementById("formTitle").textContent =
+          "Form Pendaftaran — " + program;
+        document.getElementById("program").value = program;
+        document.getElementById("formModal").style.display = "flex";
+      }
+
+      function closeForm() {
+        document.getElementById("formModal").style.display = "none";
+      }
+
+      function updateHarga() {
+        const hari = document.getElementById("hari").value;
+        const durasi = document.getElementById("durasi").value;
+        const hargaBox = document.getElementById("hargaBox");
+
+        let harga = "";
+
+        if (hari === "weekday")
+          harga = durasi === "30" ? 450000 : durasi === "10" ? 175000 : "";
+        else if (hari === "weekend")
+          harga = durasi === "30" ? 250000 : durasi === "10" ? 125000 : "";
+
+        hargaBox.textContent = harga
+          ? "Biaya: Rp " + harga.toLocaleString("id-ID")
+          : "";
+      }
+
+      // Submit ke Google Sheets
+      document
+        .getElementById("formPendaftaran")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const hari = document.getElementById("hari").value;
+          const durasi = document.getElementById("durasi").value;
+          let harga = 0;
+
+          if (hari === "weekday") harga = durasi === "30" ? 450000 : 175000;
+          else harga = durasi === "30" ? 250000 : 125000;
+
+          const data = {
+            program: document.getElementById("program").value,
+            nama: document.getElementById("nama").value,
+            ttl: document.getElementById("ttl").value,
+            usia: document.getElementById("usia").value,
+            pekerjaan: document.getElementById("pekerjaan").value,
+            whatsapp: document.getElementById("whatsapp").value,
+            hari,
+            durasi,
+            harga,
+          };
+
+          fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify(data),
+          })
+            .then(() => {
+              alert("Pendaftaran Berhasil! Data Anda telah dikirim.");
+              closeForm();
+            })
+            .catch(() => {
+              alert("Terjadi kesalahan! Pastikan koneksi internet stabil.");
+            });
+        });
+    </script>
+  </body>
+</html>
